@@ -12,12 +12,14 @@ const MovieDetails = () => {
   const { movies } = useSelector(state => state.moviesSlice)
   const { series } = useSelector(state => state.seriesSlice)
   const { trending } = useSelector(state => state.trendingSlice)
+  const { bookmark } = useSelector(state => state.bookmarkSlice)
   const getAllMoviesDetails = [
     ...searchResults,
     ...recommended,
     ...movies,
     ...series,
     ...trending,
+    ...bookmark
   ];
 
   // Find the movie or TV show that matches the ID

@@ -62,6 +62,7 @@ function App() {
             <Route path="/bookmark" element={<Boookmarks />} />
             <Route path="/movies/movie/:id" element={<MovieDetails />} />
             <Route path="/trending/:id" element={<MovieDetails />} />
+            <Route path="/bookmark/:id" element={<MovieDetails />} />
             <Route path="/series/tv/:id" element={<MovieDetails />} />
           </Route>
           <Route path="/login" element={<Login />} />

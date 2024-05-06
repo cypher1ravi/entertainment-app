@@ -17,7 +17,7 @@ const Movie = ({ movie }) => {
             : img
         }
         alt={movie.title || movie.original_title || movie.original_name}
-        className="mb-2 w-full rounded-lg h-[130px] "
+        className="mb-2 w-full rounded-lg h-[150px] "
       />
 
       <BookmarkBtn movieId={movie?.id} mediaType={"movies"} />

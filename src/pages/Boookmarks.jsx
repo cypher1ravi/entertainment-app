@@ -1,20 +1,35 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setBookmark, setLoadingBookmark, setSearchTermBookmark } from "../store/slices/bookmarkSlice";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Movie from "../components/Movie";
 
 const Boookmarks = () => {
 
   const { bookmark, searchTermBookmark, loadingBookmark } = useSelector(state => state.bookmarkSlice)
   const dispatch = useDispatch()
 
-  console.log(bookmark);
-
-
-
   return (
-    <div className="px-4 pb-12 pt-20 flex justify-center items-center text-2xl uppercase animate-pulse lg:pl-32">
-      Boookmarks coming soon ...
-    </div>
+    <section className="px-4 pb-12 lg:pl-32">
+
+      <div className="pt-10 my-6 font-light text-xl tracking-[-0.3125px] flex gap-x-2 items-center ">
+        <h1 className="text-xl">Bookmarks</h1>
+        <p className="border font-medium py-[1px] text-xs px-2 rounded-md">
+          ALL
+        </p>
+      </div>
+      <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+        {/* Map through movies and show Skeleton Loader when loading  */}
+        {loadingBookmark
+          ? [...Array(20)].map((_, i) => <SkeletonLoaderMovies key={i} />)
+          : bookmark.map((movie) => (
+            <Link key={movie.id} to={`/bookmark/${movie.id}`}>
+
+              <Movie movie={movie} />
+            </Link>
+          ))}
+      </div>
+    </section>
   );
 };
 
