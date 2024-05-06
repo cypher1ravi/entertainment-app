@@ -4,14 +4,36 @@ const decode = require('../middleware/index');
 const Movie = require('../models/Movies')
 const TvSeries = require('../models/TvSeries')
 
+
 const router = express.Router();
 router.get('/', async (req, res) => {
+    const { userId } = req.query; // Assuming you pass the user identifier as a query parameter
+    // const userId = "Tl1FM4ZfYNOhYSpp8g0OyJtmMoI3"
     try {
-        const bookmarks = await Bookmark.find(); // Await the result of the find() method
-        res.status(200).json({ bookmarks }); // Send the bookmarks in the response
+        // Find bookmarks for the specified user
+        const userBookmarks = await Bookmark.findOne({ firebaseId: userId });
+
+        if (!userBookmarks) {
+            return res.status(404).json({ message: 'User not found or has no bookmarks' });
+        }
+
+        // Extract bookmark IDs for movies and TV series
+        const movieBookmarkIds = userBookmarks.bookmark
+            .filter(item => item.mediatype === 'movies')
+            .map(item => item.id);
+        const tvSeriesBookmarkIds = userBookmarks.bookmark
+            .filter(item => item.mediatype === 'tvseries')
+            .map(item => item.id);
+
+        // Find movies and TV series based on bookmark IDs
+        const movies = await Movie.find({ id: movieBookmarkIds });
+        const tvSeries = await TvSeries.find({ id: tvSeriesBookmarkIds });
+
+        // Send the combined results
+        res.status(200).json({ movies, tvSeries });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'Failed to load bookmark' });
+        console.error(error);
+        res.status(500).json({ message: 'Failed to load bookmarks' });
     }
 });
 

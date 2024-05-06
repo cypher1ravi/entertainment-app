@@ -3,9 +3,15 @@ import img from "../assets/trending-assets/trendingImg.svg";
 import bookmarkIcon from "../assets/trending-assets/bookmarkIcon.svg";
 import seriesIcon from "../assets/trending-assets/series.svg";
 import playIcon from "../assets/playIcon.svg";
+import { addBookmark, removeBookmark } from "../firebase-config";
 
 const TV = ({ movie }) => {
   const first_air_date = movie.first_air_date;
+  const handleBookmark = (e) => {
+    e.preventDefault()
+    addBookmark(movie.id, "tvseries")
+    removeBookmark(movie.id, "tvseries")
+  }
 
   return (
     <div className="movieContainer relative w-full ">
@@ -23,6 +29,7 @@ const TV = ({ movie }) => {
         src={bookmarkIcon}
         alt="Bookmark Icon"
         className="absolute top-2 right-2 cursor-pointer"
+        onClick={handleBookmark}
       />
       <img
         src={playIcon}
