@@ -1,25 +1,33 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { addBookmark, removeBookmark } from "../../firebase-config";
+import { addBookmarkToStore, removeBookmarkFromStore } from "../../store/slices/bookmarkSlice";
 
 
 const BookmarkBtn = ({ movieId, mediaType }) => {
 
-    const handleBookmark = (e) => {
+    const { bookmark } = useSelector(state => state.bookmarkSlice)
+    const dispatch = useDispatch()
+
+    const addedBookmarked = bookmark.find(e => e.movieId === movieId)
+
+    const handleBookmark = async (e) => {
         e.preventDefault()
-        addBookmark(movieId, mediaType)
-        // removeBookmark(movie.id, "movies")
+        if (addedBookmarked) {
+            removeBookmark(movieId, mediaType)
+            dispatch(removeBookmarkFromStore(movieId))
+        } else {
+            addBookmark(movieId, mediaType)
+            dispatch(addBookmarkToStore({ movieId, mediaType }))
+        }
     }
 
-    // const bookmark= useSelector(state=> state.bookmark)
-    //duummy data for now
-    const bookmark = []
 
     return (
         <i className="absolute top-2 right-2 cursor-pointer bookmark-icon"
             onClick={handleBookmark}>
             {
-                (bookmark.includes(movieId)) ? <FaBookmark color="blue" /> : <FaRegBookmark />
+                (addedBookmarked) ? <FaBookmark color="blue" /> : <FaRegBookmark />
             }
 
         </i>
