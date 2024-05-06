@@ -14,7 +14,7 @@ router.get('/', decode, async (req, res) => {
         const userBookmarks = await Bookmark.findOne({ firebaseId: userId });
 
         if (!userBookmarks) {
-            return res.status(404).json({ message: 'User not found or has no bookmarks' });
+            return res.status(404).json([{ message: 'User not found or has no bookmarks' }]);
         }
 
         // Extract bookmark IDs for movies and TV series
