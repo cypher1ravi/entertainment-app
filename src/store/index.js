@@ -4,6 +4,7 @@ import seriesSlice from "./slices/seriesSlice";
 import trendingSlice from "./slices/trendingSlice";
 import searchResultsSlice from "./slices/searchResultsSlice";
 import recommendedSlice from "./slices/recommendedSlice";
+import bookmarkSlice from "./slices/bookmarkSlice";
 
 
 const store = configureStore({
@@ -13,6 +14,7 @@ const store = configureStore({
         seriesSlice,
         recommendedSlice,
         trendingSlice,
+        bookmarkSlice,
     }
 })
 

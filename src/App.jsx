@@ -11,8 +11,38 @@ import Header from "./components/Header";
 import MovieDetails from "./pages/MovieDetails";
 import Footer from "./components/Footer";
 import Error404 from "./pages/Error404";
+import { setBookmark } from "./store/slices/bookmarkSlice";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  const serverURL = import.meta.env.SERVER_URL || "http://localhost:3001"
+
+  useEffect(() => {
+    try {
+      dispatch(setLoadingBookmark(true));
+      onAuthStateChanged(auth, async (user) => {
+        const token = await user.getIdToken()
+        if (token) {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          };
+          //fetching bookmark in array from backend
+          fetch(`${serverURL}/bookmark`, { headers })
+            .then(res => res.json).then(data => dispatch(setBookmark(data)))
+        }
+      })
+      dispatch(setLoadingBookmark(false));
+    }
+    catch (err) {
+      console.log(console.error());
+    }
+  }, [])
+
 
   return (
     <div className="relative bg-background w-full min-h-screen text-primaryColor pb-8 font-[Outfit]">
