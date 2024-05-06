@@ -1,7 +1,6 @@
-import React from "react";
-import bookmarkIcon from "../assets/trending-assets/bookmarkIcon.svg";
 import movieIcon from "../assets/trending-assets/movieIcon.svg";
 import playIcon from "../assets/playIcon.svg";
+import BookmarkBtn from "./bookmarkBtn/BookmarkBtn";
 
 const Trending = ({ trending }) => {
   return (
@@ -11,11 +10,7 @@ const Trending = ({ trending }) => {
         alt={trending.title}
         className=" w-full h-full rounded-lg "
       />
-      <img
-        src={bookmarkIcon}
-        alt="Bookmark Icon"
-        className="absolute top-2 right-2 cursor-pointer"
-      />
+      <BookmarkBtn movieId={trending?.id} mediaType={"trending"} />
       <img
         src={playIcon}
         alt="Bookmark Icon"

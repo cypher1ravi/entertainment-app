@@ -1,9 +1,7 @@
-import React, { useContext } from "react";
-import Movie from "./Movie";
-import { UserContext } from "../App";
 import { Link } from "react-router-dom";
-import SkeletonLoaderMovies from "./SkeletonLoaderMovies";
 import { useSelector } from "react-redux";
+import Movie from "./Movie";
+import SkeletonLoaderMovies from "./SkeletonLoaderMovies";
 
 const Recommended = () => {
   const { recommended, loadingRecommended } = useSelector(state => state.recommendedSlice);
