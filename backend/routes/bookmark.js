@@ -6,9 +6,9 @@ const TvSeries = require('../models/TvSeries')
 
 
 const router = express.Router();
-router.get('/', async (req, res) => {
+router.get('/', decode, async (req, res) => {
     // const { userId } = req.query; // Assuming you pass the user identifier as a query parameter
-    const userId = "Tl1FM4ZfYNOhYSpp8g0OyJtmMoI3"
+    const userId = req.body.firebaseId
     try {
         // Find bookmarks for the specified user
         const userBookmarks = await Bookmark.findOne({ firebaseId: userId });

@@ -16,10 +16,10 @@ const BookmarkBtn = ({ movieId, mediaType }) => {
         e.preventDefault()
         if (addedBookmarked) {
             removeBookmark(movieId, mediaType)
-            dispatch(removeBookmarkFromStore(movieId))
+            // dispatch(removeBookmarkFromStore(movieId))
         } else {
             addBookmark(movieId, mediaType)
-            dispatch(addBookmarkToStore({ movieId, mediaType }))
+            // dispatch(addBookmarkToStore({ movieId, mediaType }))
         }
     }
 
