@@ -3,19 +3,20 @@ import Movie from "./Movie";
 import { UserContext } from "../App";
 import { Link } from "react-router-dom";
 import SkeletonLoaderMovies from "./SkeletonLoaderMovies";
+import { useSelector } from "react-redux";
 
 const Recommended = () => {
-  const { recommended, loadingRecommended } = useContext(UserContext);
+  const { recommended, loadingRecommended } = useSelector(state => state.recommendedSlice);
 
-  // if (loadingRecommended) {
-  //   return (
-  //     <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-  //       {[...Array(10)].map((_, i) => (
-  //         <SkeletonLoaderMovies key={i} />
-  //       ))}
-  //     </div>
-  //   );
-  // }
+  if (loadingRecommended) {
+    return (
+      <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {[...Array(10)].map((_, i) => (
+          <SkeletonLoaderMovies key={i} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <>

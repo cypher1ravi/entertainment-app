@@ -6,6 +6,8 @@ const SearchBar = ({ searchTerm, setSearchTerm, placeholder }) => {
     setSearchTerm(e.target.value);
   };
 
+
+
   return (
     <form className="relative pt-24 w-full lg:pt-16">
       <label htmlFor="search">
