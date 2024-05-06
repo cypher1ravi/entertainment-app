@@ -4,35 +4,65 @@ import SearchBar from "../components/SearchBar";
 import SkeletonLoaderMovies from "../components/SkeletonLoaderMovies";
 import Movie from "../components/Movie";
 import { UserContext } from "../App";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoadingMovies, setMovies, setSearchTermMovies } from "../store/slices/moviesSlice";
 
 const Movies = () => {
-  const {
-    movies,
-    setMovies,
-    loadingMovies,
-    setLoadingMovies,
-    setSearchTermMovies,
-    searchTermMovies,
-  } = useContext(UserContext);
-  const API_KEY = import.meta.env.VITE_REACT_APP_TMBDB_API_KEY;
+
+  const { movies, loadingMovies, searchTermMovies } = useSelector(state => state.moviesSlice)
+  const dispatch = useDispatch();
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 
-  // GET MOVIES SEARCH RESULTS
+  const handleSearch = (term) => dispatch(setSearchTermMovies(term))
+
   useEffect(() => {
+    dispatch(setLoadingMovies(true));
+
+    // GET MOVIES SEARCH RESULTS
     if (searchTermMovies !== "") {
       fetch(
         `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchTermMovies}&include_adult=false`
       )
         .then((res) => res.json())
         .then((data) => {
-          setMovies(data.results);
-          setLoadingMovies(false);
+          dispatch(setMovies(data.results));
+          dispatch(setLoadingMovies(false));
         })
         .catch((err) => {
           console.error(err);
         });
     }
+    // GET POPULAR MOVIES at first and if search term empty
+    else {
+      fetch(
+        `http://localhost:3001/movies?page=1&limit=8`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          dispatch(setMovies(data.movies));
+          dispatch(setLoadingMovies(false));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [searchTermMovies]);
+
+  useEffect(() => {
+    dispatch(setLoadingMovies(true));
+    fetch(
+      `http://localhost:3001/movies?page=1&limit=8`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(setMovies(data.movies));
+        dispatch(setLoadingMovies(false));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     document.title = "Popular Movies"; //Modify Func Later
@@ -43,7 +73,7 @@ const Movies = () => {
     <section className="px-4 pb-12 lg:pl-32">
       <SearchBar
         searchTerm={searchTermMovies}
-        setSearchTerm={setSearchTermMovies}
+        setSearchTerm={handleSearch}
         placeholder="Search for movies"
       />
       <div className="my-6 font-light text-xl tracking-[-0.3125px] flex gap-x-2 items-center ">

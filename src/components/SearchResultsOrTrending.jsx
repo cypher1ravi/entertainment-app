@@ -1,13 +1,35 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../App";
 import Movie from "./Movie";
 import SkeletonLoaderTrending from "./SkeletonLoaderTrending";
 import Trending from "./Trending";
 import ScrollContainer from "react-indiana-drag-scroll";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoadingTrending, setTrending } from "../store/slices/trendingSlice";
 
-const SearchResultsOrTrending = ({ trending, loadingTrending }) => {
-  const { searchTerm, searchResults } = useContext(UserContext);
+const SearchResultsOrTrending = () => {
+  const { searchTerm, searchResults } = useSelector(state => state.searchResultsSlice);
+
+  const { trending, loadingTrending } = useSelector(state => state.trendingSlice)
+  const dispatch = useDispatch();
+
+  // GET TRENDING MOVIES AND TV SERIES
+  useEffect(() => {
+    dispatch(setLoadingTrending(true));
+    fetch(`http://localhost:3001/additional/trending?limit=8&page=1`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("running");
+        console.log(data.trending);
+        dispatch(setTrending(data.trending));
+        dispatch(setLoadingTrending(false));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+
 
   return (
     <>

@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { UserContext } from "../App";
+import { useSelector } from "react-redux";
 
 const Title = () => {
-  const { searchTerm, searchResults } = useContext(UserContext);
+  const { searchTerm, searchResults } = useSelector(state => state.searchResultsSlice);
   return (
     <>
       {searchResults.length > 0 && searchTerm !== "" ? (
