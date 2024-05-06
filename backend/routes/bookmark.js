@@ -7,8 +7,8 @@ const TvSeries = require('../models/TvSeries')
 
 const router = express.Router();
 router.get('/', async (req, res) => {
-    const { userId } = req.query; // Assuming you pass the user identifier as a query parameter
-    // const userId = "Tl1FM4ZfYNOhYSpp8g0OyJtmMoI3"
+    // const { userId } = req.query; // Assuming you pass the user identifier as a query parameter
+    const userId = "Tl1FM4ZfYNOhYSpp8g0OyJtmMoI3"
     try {
         // Find bookmarks for the specified user
         const userBookmarks = await Bookmark.findOne({ firebaseId: userId });
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
         const tvSeries = await TvSeries.find({ id: tvSeriesBookmarkIds });
 
         // Send the combined results
-        res.status(200).json({ movies, tvSeries });
+        res.status(200).json([...movies, ...tvSeries]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Failed to load bookmarks' });
