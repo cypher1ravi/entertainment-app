@@ -26,7 +26,7 @@ const bookmarkSlice = createSlice({
             state.bookmark = [...state.bookmark, (action.payload)]
         },
         removeBookmarkFromStore(state, action) {
-            state.bookmark = state.bookmark.filter(item => item.movieId !== action.payload)
+            state.bookmark = state.bookmark.filter(item => item.id !== action.payload)
         }
 
     }

@@ -10,7 +10,7 @@ const Trending = ({ trending }) => {
         alt={trending.title}
         className=" w-full h-full rounded-lg "
       />
-      <BookmarkBtn movieId={trending?.id} mediaType={"movies"} />
+      <BookmarkBtn movie={trending} mediaType={"movies"} />
       <img
         src={playIcon}
         alt="Bookmark Icon"
