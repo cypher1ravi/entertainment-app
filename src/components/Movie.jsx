@@ -20,7 +20,7 @@ const Movie = ({ movie }) => {
         className="mb-2 w-full rounded-lg h-[150px] "
       />
 
-      <BookmarkBtn movieId={movie?.id} mediaType={"movies"} />
+      <BookmarkBtn movie={movie} mediaType={"movies"} />
 
       <img
         src={playIcon}

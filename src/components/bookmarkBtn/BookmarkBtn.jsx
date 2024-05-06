@@ -4,22 +4,23 @@ import { addBookmark, removeBookmark } from "../../firebase-config";
 import { addBookmarkToStore, removeBookmarkFromStore } from "../../store/slices/bookmarkSlice";
 
 
-const BookmarkBtn = ({ movieId, mediaType }) => {
+const BookmarkBtn = ({ movie, mediaType }) => {
 
     const { bookmark } = useSelector(state => state.bookmarkSlice)
     const dispatch = useDispatch()
 
-    // const addedBookmarked = bookmark.find(e => e.movieId === movieId)
-    const addedBookmarked = false
+    const addedBookmarked = bookmark?.find(e => e.id === movie?.id)
+    // const addedBookmarked = false
+
 
     const handleBookmark = async (e) => {
         e.preventDefault()
         if (addedBookmarked) {
-            removeBookmark(movieId, mediaType)
-            // dispatch(removeBookmarkFromStore(movieId))
+            removeBookmark(movie.id, mediaType)
+            dispatch(removeBookmarkFromStore(movie.id))
         } else {
-            addBookmark(movieId, mediaType)
-            // dispatch(addBookmarkToStore({ movieId, mediaType }))
+            addBookmark(movie.id, mediaType)   //adding bookmark to database
+            dispatch(addBookmarkToStore(movie))  //adding bookmark to local redux store
         }
     }
 
