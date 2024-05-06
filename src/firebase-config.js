@@ -104,7 +104,6 @@ export const addBookmark = async (movieId, mediaType) => {
       const token = await user.getIdToken()
       // console.log(user.accessToken);
       console.log(JSON.stringify({ movieId }));
-      console.log("running");
       const options = {
         method: "POST", // Adjust method based on API needs
         headers: {
@@ -126,7 +125,6 @@ export const removeBookmark = async (movieId, mediaType) => {
       const token = await user.getIdToken()
       // console.log(user.accessToken);
       console.log(JSON.stringify({ movieId, mediaType }));
-      console.log("running");
       const options = {
         method: "POST", // Adjust method based on API needs
         headers: {
