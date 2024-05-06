@@ -48,20 +48,20 @@ const Movies = () => {
     }
   }, [searchTermMovies]);
 
-  useEffect(() => {
-    dispatch(setLoadingMovies(true));
-    fetch(
-      `http://localhost:3001/movies?page=1&limit=8`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch(setMovies(data.movies));
-        dispatch(setLoadingMovies(false));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   dispatch(setLoadingMovies(true));
+  //   fetch(
+  //     `http://localhost:3001/movies?page=1&limit=8`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       dispatch(setMovies(data.movies));
+  //       dispatch(setLoadingMovies(false));
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   useEffect(() => {
     document.title = "Popular Movies"; //Modify Func Later
