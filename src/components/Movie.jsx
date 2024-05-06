@@ -11,8 +11,8 @@ const Movie = ({ movie }) => {
 
   const handleBookmark = (e) => {
     e.preventDefault()
-    addBookmark(movie._id)
-    removeBookmark(movie._id)
+    addBookmark(movie.id, "movies")
+    removeBookmark(movie.id, "movies")
   }
 
   return (

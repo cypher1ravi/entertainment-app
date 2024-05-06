@@ -21,6 +21,11 @@ mongoose.connect('mongodb+srv://ravindrachaubey410:TeSd58uVfa4lvnEz@cluster0.d0l
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
+
+// mongoose.connect('mongodb://localhost:27017/entertainment_app')
+//     .then(() => console.log('Connected to MongoDB'))
+//     .catch(err => console.error('Error connecting to MongoDB:', err));
+
 // Routes
 // app.use('/auth', authRouter);
 app.use('/movies', moviesRouter);

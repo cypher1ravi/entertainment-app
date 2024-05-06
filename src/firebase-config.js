@@ -98,7 +98,7 @@ export function useAuth() {
 
 //function to add and remove bookmarks...................
 
-export const addBookmark = async (movieId) => {
+export const addBookmark = async (movieId, mediaType) => {
   try {
     onAuthStateChanged(auth, async (user) => {
       const token = await user.getIdToken()
@@ -111,7 +111,7 @@ export const addBookmark = async (movieId) => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ movieId })
+        body: JSON.stringify({ movieId, mediaType })
       };
       fetch(`${serverURL}/bookmark/add`, options)
     })
@@ -120,12 +120,12 @@ export const addBookmark = async (movieId) => {
   }
 }
 
-export const removeBookmark = async (movieId) => {
+export const removeBookmark = async (movieId, mediaType) => {
   try {
     onAuthStateChanged(auth, async (user) => {
       const token = await user.getIdToken()
       // console.log(user.accessToken);
-      console.log(JSON.stringify({ movieId }));
+      console.log(JSON.stringify({ movieId, mediaType }));
       console.log("running");
       const options = {
         method: "POST", // Adjust method based on API needs
@@ -133,7 +133,7 @@ export const removeBookmark = async (movieId) => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ movieId })
+        body: JSON.stringify({ movieId, mediaType })
       };
       fetch(`${serverURL}/bookmark/remove`, options)
     })
