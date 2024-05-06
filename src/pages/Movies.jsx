@@ -1,9 +1,8 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import SkeletonLoaderMovies from "../components/SkeletonLoaderMovies";
 import Movie from "../components/Movie";
-import { UserContext } from "../App";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoadingMovies, setMovies, setSearchTermMovies } from "../store/slices/moviesSlice";
 

@@ -1,14 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { UserContext } from "../App";
+import { useSelector } from "react-redux";
 
 const MovieDetails = () => {
   const [fullMovieDetail, setFullMovieDetail] = useState([]);
   const [loading, setLoading] = useState(true);
 
 
-  const { searchResults, recommended, movies, series, trending } =
-    useContext(UserContext);
+  const { searchResults } = useSelector(state => state.searchResultsSlice)
+  const { recommended } = useSelector(state => state.recommendedSlice)
+  const { movies } = useSelector(state => state.moviesSlice)
+  const { series } = useSelector(state => state.seriesSlice)
+  const { trending } = useSelector(state => state.trendingSlice)
   const getAllMoviesDetails = [
     ...searchResults,
     ...recommended,

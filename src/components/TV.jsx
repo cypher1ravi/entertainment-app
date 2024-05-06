@@ -1,9 +1,12 @@
 import React from "react";
 import img from "../assets/trending-assets/trendingImg.svg";
-import bookmarkIcon from "../assets/trending-assets/bookmarkIcon.svg";
 import seriesIcon from "../assets/trending-assets/series.svg";
 import playIcon from "../assets/playIcon.svg";
+<<<<<<< HEAD
 import { addBookmark, removeBookmark } from "../firebase-config";
+=======
+import BookmarkBtn from "./bookmarkBtn/BookmarkBtn";
+>>>>>>> 40a9e2a9d0b37ae0bb1b42c265183285886b8f9f
 
 const TV = ({ movie }) => {
   const first_air_date = movie.first_air_date;
@@ -25,12 +28,16 @@ const TV = ({ movie }) => {
         alt={movie.title || movie.original_title || movie.original_name}
         className="mb-2 w-full rounded-lg h-[130px] "
       />
+<<<<<<< HEAD
       <img
         src={bookmarkIcon}
         alt="Bookmark Icon"
         className="absolute top-2 right-2 cursor-pointer"
         onClick={handleBookmark}
       />
+=======
+      <BookmarkBtn movieId={movie?.id} mediaType={"series"} />
+>>>>>>> 40a9e2a9d0b37ae0bb1b42c265183285886b8f9f
       <img
         src={playIcon}
         alt="Play Icon"
