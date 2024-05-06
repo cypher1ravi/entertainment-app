@@ -9,16 +9,17 @@ const BookmarkBtn = ({ movieId, mediaType }) => {
     const { bookmark } = useSelector(state => state.bookmarkSlice)
     const dispatch = useDispatch()
 
-    const addedBookmarked = bookmark.find(e => e.movieId === movieId)
+    // const addedBookmarked = bookmark.find(e => e.movieId === movieId)
+    const addedBookmarked = false
 
     const handleBookmark = async (e) => {
         e.preventDefault()
         if (addedBookmarked) {
             removeBookmark(movieId, mediaType)
-            dispatch(removeBookmarkFromStore(movieId))
+            // dispatch(removeBookmarkFromStore(movieId))
         } else {
             addBookmark(movieId, mediaType)
-            dispatch(addBookmarkToStore({ movieId, mediaType }))
+            // dispatch(addBookmarkToStore({ movieId, mediaType }))
         }
     }
 
