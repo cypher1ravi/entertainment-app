@@ -13,7 +13,6 @@ const Home = () => {
   const dispatch = useDispatch()
   const [toolTip, setToolTip] = useState(false);
   const { searchTerm } = useSelector(state => state.searchResultsSlice)
-  const { trending, loadingTrending } = useSelector(state => state.trendingSlice)
 
   const handleSearch = (term) => dispatch(setSearchTerm(term))
 
@@ -72,10 +71,7 @@ const Home = () => {
         placeholder="Search for movies or TV series"
       />
       <Title />
-      <SearchResultsOrTrending
-        trending={trending}
-        loadingTrending={loadingTrending}
-      />
+      <SearchResultsOrTrending />
       <section className="mt-6 w-full">
         <h1 className=" mb-4 font-light text-xl flex gap-x-2 items-center relative">
           Recommended for you

@@ -1,8 +1,8 @@
 import React from "react";
 import img from "../assets/trending-assets/trendingImg.svg";
-import bookmarkIcon from "../assets/trending-assets/bookmarkIcon.svg";
 import seriesIcon from "../assets/trending-assets/series.svg";
 import playIcon from "../assets/playIcon.svg";
+import BookmarkBtn from "./bookmarkBtn/BookmarkBtn";
 
 const TV = ({ movie }) => {
   const first_air_date = movie.first_air_date;
@@ -19,11 +19,7 @@ const TV = ({ movie }) => {
         alt={movie.title || movie.original_title || movie.original_name}
         className="mb-2 w-full rounded-lg h-[130px] "
       />
-      <img
-        src={bookmarkIcon}
-        alt="Bookmark Icon"
-        className="absolute top-2 right-2 cursor-pointer"
-      />
+      <BookmarkBtn movieId={movie?.id} mediaType={"series"} />
       <img
         src={playIcon}
         alt="Play Icon"

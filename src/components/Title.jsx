@@ -1,5 +1,3 @@
-import React, { useContext } from "react";
-import { UserContext } from "../App";
 import { useSelector } from "react-redux";
 
 const Title = () => {

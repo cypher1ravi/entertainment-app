@@ -1,19 +1,11 @@
-import React from "react";
 import img from "../assets/trending-assets/trendingImg.svg";
-import bookmarkIcon from "../assets/trending-assets/bookmarkIcon.svg";
 import movieIcon from "../assets/trending-assets/movieIcon.svg";
 import tvIcon from "../assets/trending-assets/series.svg";
 import playIcon from "../assets/playIcon.svg";
-import { addBookmark, removeBookmark } from "../firebase-config";
+import BookmarkBtn from "./bookmarkBtn/BookmarkBtn";
 
 const Movie = ({ movie }) => {
   const release_date = movie.release_date || movie.first_air_date;
-
-  const handleBookmark = (e) => {
-    e.preventDefault()
-    addBookmark(movie.id, "movies")
-    removeBookmark(movie.id, "movies")
-  }
 
   return (
     <div className="movieContainer relative w-full ">
@@ -27,12 +19,9 @@ const Movie = ({ movie }) => {
         alt={movie.title || movie.original_title || movie.original_name}
         className="mb-2 w-full rounded-lg h-[130px] "
       />
-      <img
-        src={bookmarkIcon}
-        alt="Bookmark Icon"
-        className="absolute top-2 right-2 cursor-pointer"
-        onClick={handleBookmark}
-      />
+
+      <BookmarkBtn movieId={movie?.id} mediaType={"movie"} />
+
       <img
         src={playIcon}
         alt="Play Icon"

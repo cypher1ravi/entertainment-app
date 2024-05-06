@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import ScrollContainer from "react-indiana-drag-scroll";
+import { useDispatch, useSelector } from "react-redux";
 import Movie from "./Movie";
 import SkeletonLoaderTrending from "./SkeletonLoaderTrending";
 import Trending from "./Trending";
-import ScrollContainer from "react-indiana-drag-scroll";
-import { useDispatch, useSelector } from "react-redux";
 import { setLoadingTrending, setTrending } from "../store/slices/trendingSlice";
 
 const SearchResultsOrTrending = () => {
@@ -19,8 +19,6 @@ const SearchResultsOrTrending = () => {
     fetch(`http://localhost:3001/additional/trending?limit=8&page=1`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("running");
-        console.log(data.trending);
         dispatch(setTrending(data.trending));
         dispatch(setLoadingTrending(false));
       })
