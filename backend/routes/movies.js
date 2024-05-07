@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         const movies = await Movie.find()
             .skip((page - 1) * limit)
             .limit(limit);
-        res.json({ movies, totalPages, currentPage: page });
+        res.json({ movies, totalPages, totalDocuments, currentPage: page });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching movies from database.' });
     }

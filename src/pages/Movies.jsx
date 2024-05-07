@@ -1,72 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import SkeletonLoaderMovies from "../components/SkeletonLoaderMovies";
 import Movie from "../components/Movie";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoadingMovies, setMovies, setSearchTermMovies } from "../store/slices/moviesSlice";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Movies = () => {
-
   const { movies, loadingMovies, searchTermMovies } = useSelector(state => state.moviesSlice)
   const dispatch = useDispatch();
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-
+  const [page, setPage] = useState(1);
+  const [totalResult, setTotalResults] = useState()
 
   const handleSearch = (term) => dispatch(setSearchTermMovies(term))
 
   useEffect(() => {
-    dispatch(setLoadingMovies(true));
-
-    // GET MOVIES SEARCH RESULTS
-    if (searchTermMovies !== "") {
-      fetch(
-        `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchTermMovies}&include_adult=false`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch(setMovies(data.results));
-          dispatch(setLoadingMovies(false));
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-    // GET POPULAR MOVIES at first and if search term empty
-    else {
-      fetch(
-        `http://localhost:3001/movies?page=1&limit=8`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch(setMovies(data.movies));
-          dispatch(setLoadingMovies(false));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [searchTermMovies]);
-
-  // useEffect(() => {
-  //   dispatch(setLoadingMovies(true));
-  //   fetch(
-  //     `http://localhost:3001/movies?page=1&limit=8`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       dispatch(setMovies(data.movies));
-  //       dispatch(setLoadingMovies(false));
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+    document.title = "Popular Movies";
+  }, []);
 
   useEffect(() => {
-    document.title = "Popular Movies"; //Modify Func Later
-  });
+    dispatch(setLoadingMovies(true));
+    setPage(1); // Reset page when search term changes
+    fetchMovies(1);
+  }, [searchTermMovies]);
 
+  const fetchMovies = (pageNumber) => {
+    fetch(
+      `http://localhost:3001/movies?page=${pageNumber}&limit=8`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (pageNumber === 1) {
+          dispatch(setMovies(data.movies));
+          setTotalResults(data.totalDocuments)
+        } else {
+          dispatch(setMovies([...movies, ...data.movies]));
+        }
+        setPage(pageNumber + 1); // Increment page for the next fetch
+        dispatch(setLoadingMovies(false));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchMoreData = () => {
+    fetchMovies(page);
+  };
 
   return (
     <section className="px-4 pb-12 lg:pl-32">
@@ -81,17 +63,26 @@ const Movies = () => {
           MOVIE
         </p>
       </div>
-      <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {/* Map through movies and show Skeleton Loader when loading  */}
-        {loadingMovies
-          ? [...Array(20)].map((_, i) => <SkeletonLoaderMovies key={i} />)
-          : movies.map((movie) => (
+      {/* Infinite Scroll Component */}
+      <InfiniteScroll
+        dataLength={movies.length}
+        next={fetchMoreData}
+        hasMore={movies.length !== totalResult} // Check if movies length is a multiple of 8 to determine if there are more items
+        loader={[...Array(3)].map((_, i) => <SkeletonLoaderMovies key={i} />)}
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            <b>No more Movies</b>
+          </p>
+        }
+      >
+        <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {movies.map((movie) => (
             <Link key={movie.id} to={`/movies/movie/${movie.id}`}>
-
               <Movie movie={movie} />
             </Link>
           ))}
-      </div>
+        </div>
+      </InfiniteScroll>
     </section>
   );
 };

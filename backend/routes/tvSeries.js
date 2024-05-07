@@ -22,6 +22,7 @@ router.get('/', async (req, res) => {
         res.json({
             tvSeries,
             totalPages,
+            totalDocuments,
             currentPage: page
         });
     } catch (error) {

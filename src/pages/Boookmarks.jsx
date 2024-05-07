@@ -12,7 +12,7 @@ const Boookmarks = () => {
   return (
     <section className="px-4 pb-12 lg:pl-32">
 
-      <div className="pt-10 my-6 font-light text-xl tracking-[-0.3125px] flex gap-x-2 items-center ">
+      <div className="pt-10 mb-6 font-light text-xl tracking-[-0.3125px] flex gap-x-2 items-center ">
         <h1 className="text-xl">Bookmarks</h1>
         <p className="border font-medium py-[1px] text-xs px-2 rounded-md">
           ALL

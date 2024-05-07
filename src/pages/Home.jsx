@@ -47,7 +47,7 @@ const Home = () => {
 
         // Retrieve the recommendations for each matching movie or TV show
         // const id = matchingResults[0].id;
-        const recommendationEndpoint = `http://localhost:3001/additional/recommended?limit=8&page=1`;
+        const recommendationEndpoint = `http://localhost:3001/additional/recommended?limit=16&page=1`;
         fetch(recommendationEndpoint)
           .then((response) => response.json())
           .then((data) => {

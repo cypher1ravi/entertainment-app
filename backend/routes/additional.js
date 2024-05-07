@@ -13,7 +13,7 @@ router.get("/trending", async (req, res) => {
             .skip((page - 1) * limit)
             .limit(limit);
         // console.log("Trending Data:", trending);
-        res.json({ trending, totalPages, currentPage: page });
+        res.json({ trending, totalPages, totalDocuments, currentPage: page });
     } catch (error) {
         console.error("Error fetching movies:", error);
         res.status(500).json({ message: "Error fetching movies from database." });
@@ -31,7 +31,7 @@ router.get("/recommended", async (req, res) => {
             .skip((page - 1) * limit)
             .limit(limit);
         // console.log("Trending Data:", trending);
-        res.json({ recommended, totalPages, currentPage: page });
+        res.json({ recommended, totalPages, totalDocuments, currentPage: page });
     } catch (error) {
         console.error("Error fetching movies:", error);
         res.status(500).json({ message: "Error fetching movies from database." });

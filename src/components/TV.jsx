@@ -22,7 +22,7 @@ const TV = ({ movie }) => {
             : img
         }
         alt={movie.title || movie.original_title || movie.original_name}
-        className="mb-2 w-full rounded-lg h-[130px] "
+        className="mb-2 w-full rounded-lg h-[160px] "
       />
       <BookmarkBtn movie={movie} mediaType={"tvseries"} />
       <img

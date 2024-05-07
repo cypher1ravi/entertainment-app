@@ -1,53 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import SkeletonLoaderMovies from "../components/SkeletonLoaderMovies";
 import TV from "../components/TV";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoadingSeries, setSearchTermSeries, setSeries } from "../store/slices/seriesSlice";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Series = () => {
-
   const { series, searchTermSeries, loadingSeries } = useSelector(state => state.seriesSlice);
   const dispatch = useDispatch();
-
-  const handleSearch = (term) => dispatch(setSearchTermSeries(term))
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+  const [page, setPage] = useState(1); // State to track the current page
+  const [totalResult, setTotalResults] = useState()
+  const handleSearch = (term) => dispatch(setSearchTermSeries(term));
 
   useEffect(() => {
-    document.title = 'Popular TVs'  //Modify Func Later
-  });
+    document.title = 'Popular TVs';
+  }, []);
 
-  // GET TV SERIS SEARCH RESULTS
   useEffect(() => {
     dispatch(setLoadingSeries(true));
-    if (searchTermSeries !== "") {
-      fetch(
-        `https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&language=en-US&query=${searchTermSeries}&include_adult=false`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch(setSeries(data.results));
-          dispatch(setLoadingSeries(false));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      // GET POPULAR TV SERIES
-      fetch(
-        `http://localhost:3001/tvseries?limit=8&page=1`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch(setSeries(data.tvSeries));
-          dispatch(setLoadingSeries(false));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    setPage(1); // Reset page when search term changes
+    fetchTVSeries(1);
   }, [searchTermSeries]);
+
+  const fetchTVSeries = (pageNumber) => {
+    fetch(
+      `http://localhost:3001/tvseries?limit=8&page=${pageNumber}` // Modify the localhost link
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (pageNumber === 1) {
+          dispatch(setSeries(data.tvSeries));
+          setTotalResults(data.totalDocuments);
+          console.log(data.totalDocuments);
+        } else {
+          dispatch(setSeries([...series, ...data.tvSeries]));
+        }
+        setPage(pageNumber + 1); // Increment page for the next fetch
+        dispatch(setLoadingSeries(false));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchMoreData = () => {
+    fetchTVSeries(page);
+  };
 
   return (
     <section className="px-4 pb-12 lg:pl-32">
@@ -62,16 +63,26 @@ const Series = () => {
           TV
         </p>
       </div>
-      <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {/* Map through TV series and show Skeleton Loader when loading  */}
-        {loadingSeries
-          ? [...Array(20)].map((_, i) => <SkeletonLoaderMovies key={i} />)
-          : series.map((tv) => (
+      {/* Infinite Scroll Component */}
+      <InfiniteScroll
+        dataLength={series.length}
+        next={fetchMoreData}
+        hasMore={series.length !== totalResult}
+        loader={[...Array(3)].map((_, i) => <SkeletonLoaderMovies key={i} />)}
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            <b>No more series</b>
+          </p>
+        }
+      >
+        <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {series.map((tv) => (
             <Link key={tv.id} to={`/series/tv/${tv.id}`}>
               <TV movie={tv} />
             </Link>
           ))}
-      </div>
+        </div>
+      </InfiniteScroll>
     </section>
   );
 };
