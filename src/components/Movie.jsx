@@ -8,7 +8,7 @@ const Movie = ({ movie }) => {
   const release_date = movie.release_date || movie.first_air_date;
 
   return (
-    <div className="movieContainer relative w-full ">
+    <div className="movieContainer relative w-full mb-3">
       <img
         src={
           movie.poster_path || movie.backdrop_path
@@ -17,7 +17,7 @@ const Movie = ({ movie }) => {
             : img
         }
         alt={movie.title || movie.original_title || movie.original_name}
-        className="mb-2 w-full rounded-lg h-[150px] "
+        className="mb-3 w-full rounded-lg h-[150px] "
       />
 
       <BookmarkBtn movie={movie} mediaType={"movies"} />

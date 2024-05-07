@@ -5,6 +5,8 @@ import SkeletonLoaderMovies from "../components/SkeletonLoaderMovies";
 import Movie from "../components/Movie";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoadingMovies, setMovies, setSearchTermMovies } from "../store/slices/moviesSlice";
+
+
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Movies = () => {
@@ -17,26 +19,27 @@ const Movies = () => {
   const handleSearch = (term) => dispatch(setSearchTermMovies(term))
 
   useEffect(() => {
-    document.title = "Popular Movies";
-  }, []);
-
-  useEffect(() => {
+    document.title = 'Popular Movies';
     dispatch(setLoadingMovies(true));
     setPage(1); // Reset page when search term changes
     fetchMovies(1);
   }, [searchTermMovies]);
 
   const fetchMovies = (pageNumber) => {
-    fetch(
-      `http://localhost:3001/movies?page=${pageNumber}&limit=8`
-    )
+    let apiUrl = `http://localhost:3001/movies?page=${pageNumber}&limit=8`;
+
+    if (searchTermMovies !== "") {
+      apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchTermMovies}&include_adult=false&page=${pageNumber}`;
+    }
+
+    fetch(apiUrl)
       .then((res) => res.json())
       .then((data) => {
         if (pageNumber === 1) {
-          dispatch(setMovies(data.movies));
-          setTotalResults(data.totalDocuments)
+          dispatch(setMovies(data.results || data.movies));
+          setTotalResults(data.totalDocuments);
         } else {
-          dispatch(setMovies([...movies, ...data.movies]));
+          dispatch(setMovies([...movies, ...(data.results || data.movies)]));
         }
         setPage(pageNumber + 1); // Increment page for the next fetch
         dispatch(setLoadingMovies(false));
@@ -63,11 +66,10 @@ const Movies = () => {
           MOVIE
         </p>
       </div>
-      {/* Infinite Scroll Component */}
       <InfiniteScroll
         dataLength={movies.length}
         next={fetchMoreData}
-        hasMore={movies.length !== totalResult} // Check if movies length is a multiple of 8 to determine if there are more items
+        hasMore={movies.length !== totalResult}
         loader={[...Array(3)].map((_, i) => <SkeletonLoaderMovies key={i} />)}
         endMessage={
           <p style={{ textAlign: "center" }}>
@@ -76,6 +78,7 @@ const Movies = () => {
         }
       >
         <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {/* Map through movies and show Skeleton Loader when loading  */}
           {movies.map((movie) => (
             <Link key={movie.id} to={`/movies/movie/${movie.id}`}>
               <Movie movie={movie} />

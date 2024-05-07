@@ -11,32 +11,33 @@ const Series = () => {
   const { series, searchTermSeries, loadingSeries } = useSelector(state => state.seriesSlice);
   const dispatch = useDispatch();
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-  const [page, setPage] = useState(1); // State to track the current page
+  const [page, setPage] = useState(1);
   const [totalResult, setTotalResults] = useState()
+
   const handleSearch = (term) => dispatch(setSearchTermSeries(term));
 
   useEffect(() => {
-    document.title = 'Popular TVs';
-  }, []);
-
-  useEffect(() => {
-    dispatch(setLoadingSeries(true));
-    setPage(1); // Reset page when search term changes
-    fetchTVSeries(1);
+    document.title = 'Popular TVs'; // Modify Func Later
+    dispatch(setLoadingSeries(true))
+    setPage(1);
+    fetchTVSeries(1)
   }, [searchTermSeries]);
 
   const fetchTVSeries = (pageNumber) => {
-    fetch(
-      `http://localhost:3001/tvseries?limit=8&page=${pageNumber}` // Modify the localhost link
-    )
+    let apiUrl = `http://localhost:3001/tvseries?page=${pageNumber}&limit=8`;
+
+    if (searchTermSeries !== "") {
+      apiUrl = `https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&language=en-US&query=${searchTermSeries}&include_adult=false&page=${pageNumber}`;
+    }
+
+    fetch(apiUrl)
       .then((res) => res.json())
       .then((data) => {
         if (pageNumber === 1) {
-          dispatch(setSeries(data.tvSeries));
+          dispatch(setSeries(data.results || data.tvSeries));
           setTotalResults(data.totalDocuments);
-          console.log(data.totalDocuments);
         } else {
-          dispatch(setSeries([...series, ...data.tvSeries]));
+          dispatch(setSeries([...series, ...(data.results || data.tvSeries)]));
         }
         setPage(pageNumber + 1); // Increment page for the next fetch
         dispatch(setLoadingSeries(false));
@@ -63,7 +64,6 @@ const Series = () => {
           TV
         </p>
       </div>
-      {/* Infinite Scroll Component */}
       <InfiniteScroll
         dataLength={series.length}
         next={fetchMoreData}
@@ -71,11 +71,12 @@ const Series = () => {
         loader={[...Array(3)].map((_, i) => <SkeletonLoaderMovies key={i} />)}
         endMessage={
           <p style={{ textAlign: "center" }}>
-            <b>No more series</b>
+            <b>No more Series</b>
           </p>
         }
       >
         <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {/* Map through TV series and show Skeleton Loader when loading  */}
           {series.map((tv) => (
             <Link key={tv.id} to={`/series/tv/${tv.id}`}>
               <TV movie={tv} />
