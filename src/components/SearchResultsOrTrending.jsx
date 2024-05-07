@@ -6,12 +6,29 @@ import Movie from "./Movie";
 import SkeletonLoaderTrending from "./SkeletonLoaderTrending";
 import Trending from "./Trending";
 import { setLoadingTrending, setTrending } from "../store/slices/trendingSlice";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const SearchResultsOrTrending = () => {
   const { searchTerm, searchResults } = useSelector(state => state.searchResultsSlice);
 
   const { trending, loadingTrending } = useSelector(state => state.trendingSlice)
   const dispatch = useDispatch();
+
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplaySpeed: 1000,
+    dots: false,
+    // autoplay: true,
+    variableWidth: true,
+    adaptiveHeight: true,
+  };
 
   // GET TRENDING MOVIES AND TV SERIES
   useEffect(() => {
@@ -28,7 +45,6 @@ const SearchResultsOrTrending = () => {
   }, []);
 
 
-
   return (
     <>
       {searchResults.length > 0 && searchTerm !== "" ? (
@@ -41,17 +57,31 @@ const SearchResultsOrTrending = () => {
             );
           })}
         </div>
-      ) : (
-        <ScrollContainer vertical={false} className="w-full flex gap-x-4">
-          {loadingTrending
-            ? [...Array(20)].map((_, i) => <SkeletonLoaderTrending key={i} />)
-            : trending.map((item) => (
-              <Link key={item.id} to={`/trending/${item.id}`}>
-                <Trending trending={item} />
-              </Link>
-            ))}
-        </ScrollContainer>
-      )}
+      ) :
+        (
+          <Slider {...settings}>
+            {loadingTrending
+              ? [...Array(20)].map((_, i) => <SkeletonLoaderTrending key={i} />)
+              : trending.map((item) => (
+                <Link key={item.id} to={`/trending/${item.id}`}>
+                  <Trending trending={item} />
+                </Link>
+              ))}
+          </Slider>
+        )
+
+        // (
+        //   <ScrollContainer vertical={false} className="w-full flex gap-x-4">
+        //     {loadingTrending
+        //       ? [...Array(20)].map((_, i) => <SkeletonLoaderTrending key={i} />)
+        //       : trending.map((item) => (
+        //         <Link key={item.id} to={`/trending/${item.id}`}>
+        //           <Trending trending={item} />
+        //         </Link>
+        //       ))}
+        //   </ScrollContainer>
+        // )
+      }
     </>
   );
 };
