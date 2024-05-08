@@ -33,7 +33,7 @@ function App() {
             "Content-Type": "application/json"
           };
           //fetching bookmark in array from backend
-          fetch(`${serverURL}/bookmark`, { headers })
+          fetch(`${API_URL}/bookmark`, { headers })
             .then(res => res.json()).then(data => {
               dispatch(setBookmark(data))
             })
