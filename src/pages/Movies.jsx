@@ -6,6 +6,7 @@ import Movie from "../components/Movie";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoadingMovies, setMovies, setSearchTermMovies } from "../store/slices/moviesSlice";
 
+
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Movies = () => {
@@ -25,11 +26,10 @@ const Movies = () => {
   }, [searchTermMovies]);
 
   const fetchMovies = (pageNumber) => {
-    let apiUrl = `http://localhost:3001/movies?page=${pageNumber}&limit=8`;
+    let apiUrl = `${API_URL}/movies?page=${pageNumber}&limit=8`;
 
     if (searchTermMovies !== "") {
-      // apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchTermMovies}&include_adult=false&page=${pageNumber}`;
-      apiUrl = `http://localhost:3001/movies?page=${pageNumber}&limit=8&search=${searchTermMovies}`;
+      apiUrl = `${API_URL}/movies?page=${pageNumber}&limit=8&search=${searchTermMovies}`;
     }
 
     fetch(apiUrl)
@@ -80,7 +80,7 @@ const Movies = () => {
         <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {/* Map through movies and show Skeleton Loader when loading  */}
           {movies.map((movie) => (
-            <Link key={movie.id} to={`${serverURL}/movies/movie/${movie.id}`}>
+            <Link key={movie.id} to={`/movies/movie/${movie.id}`}>
               <Movie movie={movie} />
             </Link>
           ))}
