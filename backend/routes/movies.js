@@ -3,15 +3,29 @@ const router = express.Router();
 const Movie = require('../models/Movies');
 const MovieDetails = require('../models/MovieDetails');
 router.get('/', async (req, res) => {
+
+    //for search
+    const { search } = req.query
+    const query = { $regex: search, $options: "i" }
+
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 8;
-    const totalDocuments = await Movie.countDocuments();
-    const totalPages = Math.ceil(totalDocuments / limit);
+
     try {
+        if (search) {
+            const totalDocuments = await Movie.find({ 'title': query }).countDocuments()
+            const totalPages = Math.ceil(totalDocuments / limit);
+            const movies = await Movie.find({ 'title': query }).skip((page - 1) * limit)
+                .limit(limit);
+            return res.status(200).json({ movies, totalPages, totalDocuments, currentPage: page });
+        }
+
+        const totalDocuments = await Movie.countDocuments();
+        const totalPages = Math.ceil(totalDocuments / limit);
         const movies = await Movie.find()
             .skip((page - 1) * limit)
             .limit(limit);
-        res.json({ movies, totalPages, totalDocuments, currentPage: page });
+        res.status(200).json({ movies, totalPages, totalDocuments, currentPage: page });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching movies from database.' });
     }
@@ -30,4 +44,5 @@ router.get('/details/:id', async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch movie' }); // Handle errors properly
     }
 });
+
 module.exports = router;
