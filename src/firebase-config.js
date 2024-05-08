@@ -24,7 +24,7 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-const API_URL = import.meta.env.API_URL || "http://localhost:3001"
+const API_URL = import.meta.env.VITE_API_URL
 
 
 // Initialize Firebase
