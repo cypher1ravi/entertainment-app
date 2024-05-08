@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import searchIcon from "../assets/header-assets/search.svg";
 
 const SearchBar = ({ searchTerm, setSearchTerm, placeholder }) => {
+
+  const [input, setInput] = useState(searchTerm)
+
   const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
+    setInput(e.target.value)
   };
 
-
+  //for debouncing
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setSearchTerm(input);
+    }, 1000);
+    // Cleanup function to clear timeout on unmount or searchTerm change
+    return () => clearTimeout(timeout);
+  }, [input]); // Only run effect when input changes
 
   return (
     <form className="relative pt-24 w-full lg:pt-16" onSubmit={(e) => e.preventDefault()}>
@@ -19,7 +29,7 @@ const SearchBar = ({ searchTerm, setSearchTerm, placeholder }) => {
       </label>
       <input
         onChange={handleSearch}
-        value={searchTerm}
+        value={input}
         type="search"
         id="search"
         placeholder={placeholder}
