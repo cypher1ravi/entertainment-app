@@ -20,7 +20,7 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const serverURL = import.meta.env.VITE_SERVER_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     try {
