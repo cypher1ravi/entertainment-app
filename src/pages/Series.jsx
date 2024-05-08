@@ -27,7 +27,7 @@ const Series = () => {
     let apiUrl = `http://localhost:3001/tvseries?page=${pageNumber}&limit=8`;
 
     if (searchTermSeries !== "") {
-      apiUrl = `https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&language=en-US&query=${searchTermSeries}&include_adult=false&page=${pageNumber}`;
+      apiUrl = `http://localhost:3001/tvseries?page=${pageNumber}&limit=8&search=${searchTermSeries}`;
     }
 
     fetch(apiUrl)

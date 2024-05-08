@@ -25,7 +25,7 @@ const SearchResultsOrTrending = () => {
     arrows: false,
     autoplaySpeed: 1000,
     dots: false,
-    // autoplay: true,
+    autoplay: true,
     variableWidth: true,
     adaptiveHeight: true,
   };
@@ -50,6 +50,7 @@ const SearchResultsOrTrending = () => {
       {searchResults.length > 0 && searchTerm !== "" ? (
         <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {searchResults.map((result) => {
+            console.log(result)
             return (
               <Link key={result.id} to={`/movies/movie/${result.id}`}>
                 <Movie movie={result} />
