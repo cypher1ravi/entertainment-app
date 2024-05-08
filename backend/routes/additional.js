@@ -4,7 +4,7 @@ const Trending = require("../models/Trending");
 const Recommended = require('../models/Recommended')
 router.get("/trending", async (req, res) => {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 8;
+    const limit = parseInt(req.query.limit) || 16;
     const totalDocuments = await Trending.countDocuments();
     const totalPages = Math.ceil(totalDocuments / limit);
 
