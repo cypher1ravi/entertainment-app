@@ -28,8 +28,8 @@ app.use('/tvseries', tvSeriesRouter);
 app.use('/additional', additionalRouter);
 app.use('/bookmark', bookmarkRouter)
 
-app.use('/', (err, req, res, next) => {
-    res.status(500).json("Something Went Wrong")
+app.get('/', (req, res,) => {
+    res.status(200).json("Server is now Listen")
 })
 
 const PORT = process.env.PORT || 3001;
