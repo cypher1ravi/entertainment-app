@@ -32,10 +32,12 @@ const SearchResultsOrTrending = () => {
     adaptiveHeight: true,
   };
 
+  const API_URL = import.meta.env.VITE_API_URL
+
   // GET TRENDING MOVIES AND TV SERIES
   useEffect(() => {
     dispatch(setLoadingTrending(true));
-    fetch(`${serverURL}/additional/trending?limit=8&page=1`)
+    fetch(`${API_URL}/additional/trending?limit=8&page=1`)
       .then((res) => res.json())
       .then((data) => {
         dispatch(setTrending(data.trending));

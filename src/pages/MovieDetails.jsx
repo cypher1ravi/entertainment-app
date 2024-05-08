@@ -28,7 +28,6 @@ const MovieDetails = () => {
   const findMovieDetails = getAllMoviesDetails.find(
     (result) => result.id === parseInt(id)
   );
-  // console.log(findMovieDetails);
   // Check if media type is movie or tv
   const [movieOrTv] = useState(
     findMovieDetails?.release_date
@@ -40,7 +39,9 @@ const MovieDetails = () => {
   const media_type_id = findMovieDetails?.id;
   // console.log(media_type_id);
 
-  const fetchDetails = `${serverURL}/${movieOrTv}/details/${media_type_id}`;
+
+  const API_URL = import.meta.env.VITE_API_URL
+  const fetchDetails = `${API_URL}/${movieOrTv}/details/${media_type_id}`;
   // Fetching Details
   useEffect(() => {
 
@@ -56,7 +57,7 @@ const MovieDetails = () => {
   }, [fetchDetails]);
 
   // Fetching Cast
-  const fetchCast = `${serverURL}/${movieOrTv}/details/${media_type_id}`;
+  const fetchCast = `${API_URL}/${movieOrTv}/details/${media_type_id}`;
   const [cast, setCast] = useState([]);
   useEffect(() => {
     fetch(fetchCast)
