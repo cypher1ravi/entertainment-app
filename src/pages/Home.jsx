@@ -58,8 +58,8 @@ const Home = () => {
           .catch((error) => console.error(error));
       })
       .catch((error) => console.error(error))
-    // .finally(() => setLoading(false));
-  }, []);
+      .finally(() => setLoading(false));
+  }, [searchTerm]);
 
 
 

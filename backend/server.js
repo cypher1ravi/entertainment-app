@@ -6,7 +6,7 @@ const moviesRouter = require('./routes/movies');
 const tvSeriesRouter = require('./routes/tvSeries');
 const additionalRouter = require('./routes/additional');
 const bookmarkRouter = require('./routes/bookmark');
-
+require('dotenv').config();
 
 const app = express();
 
@@ -17,17 +17,12 @@ app.use(cors({ origin: "*" }))
 app.use(bodyParser.json());
 
 // Database connection
-mongoose.connect('mongodb+srv://ravindrachaubey410:TeSd58uVfa4lvnEz@cluster0.d0lhvu1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Error connecting to MongoDB:', err));
 
 
-// mongoose.connect('mongodb://localhost:27017/entertainment_app')
-//     .then(() => console.log('Connected to MongoDB'))
-//     .catch(err => console.error('Error connecting to MongoDB:', err));
 
-// Routes
-// app.use('/auth', authRouter);
 app.use('/movies', moviesRouter);
 app.use('/tvseries', tvSeriesRouter);
 app.use('/additional', additionalRouter);
