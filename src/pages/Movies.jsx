@@ -29,7 +29,8 @@ const Movies = () => {
     let apiUrl = `http://localhost:3001/movies?page=${pageNumber}&limit=8`;
 
     if (searchTermMovies !== "") {
-      apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchTermMovies}&include_adult=false&page=${pageNumber}`;
+      // apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchTermMovies}&include_adult=false&page=${pageNumber}`;
+      apiUrl = `http://localhost:3001/movies?page=${pageNumber}&limit=8&search=${searchTermMovies}`;
     }
 
     fetch(apiUrl)
