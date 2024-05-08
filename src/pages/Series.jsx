@@ -23,11 +23,12 @@ const Series = () => {
     fetchTVSeries(1)
   }, [searchTermSeries]);
 
+  const API_URL = import.meta.env.VITE_API_URL
   const fetchTVSeries = (pageNumber) => {
-    let apiUrl = `http://localhost:3001/tvseries?page=${pageNumber}&limit=8`;
+    let apiUrl = `${API_URL}/tvseries?page=${pageNumber}&limit=8`;
 
     if (searchTermSeries !== "") {
-      apiUrl = `http://localhost:3001/tvseries?page=${pageNumber}&limit=8&search=${searchTermSeries}`;
+      apiUrl = `${API_URL}/tvseries?page=${pageNumber}&limit=8&search=${searchTermSeries}`;
     }
 
     fetch(apiUrl)

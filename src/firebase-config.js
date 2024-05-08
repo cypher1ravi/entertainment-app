@@ -24,7 +24,7 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-const serverURL = import.meta.env.SERVER_URL || "http://localhost:3001"
+const API_URL = import.meta.env.API_URL || "http://localhost:3001"
 
 
 // Initialize Firebase
@@ -112,7 +112,7 @@ export const addBookmark = async (movieId, mediaType) => {
         },
         body: JSON.stringify({ movieId, mediaType })
       };
-      fetch(`${serverURL}/bookmark/add`, options)
+      fetch(`${API_URL}/bookmark/add`, options)
     })
   } catch (err) {
     console.log(err)
@@ -133,7 +133,7 @@ export const removeBookmark = async (movieId, mediaType) => {
         },
         body: JSON.stringify({ movieId, mediaType })
       };
-      fetch(`${serverURL}/bookmark/remove`, options)
+      fetch(`${API_URL}/bookmark/remove`, options)
     })
   } catch (err) {
     console.log(err)

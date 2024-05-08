@@ -25,6 +25,7 @@ const Home = () => {
   const page = 1;
   const includeAdult = false;
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY
+  const API_URL = import.meta.env.VITE_API_URL
 
   useEffect(() => {
     dispatch(setLoadingSearchResults(true))
@@ -36,18 +37,7 @@ const Home = () => {
         dispatch(setSearchResults(data.results));
         dispatch(setLoadingSearchResults(false));
 
-        // Find the first movie or TV show that matches the query
-        // const matchingResults = searchResults.filter((result) => {
-        //   const title = result.title || result.name || result.original_title;
-        //   return (
-        //     (result.media_type === "movie" || result.media_type === "tv") &&
-        //     title.includes(searchTerm)
-        //   );
-        // });
-
-        // Retrieve the recommendations for each matching movie or TV show
-        // const id = matchingResults[0].id;
-        const recommendationEndpoint = `http://localhost:3001/additional/recommended?limit=16&page=1`;
+        const recommendationEndpoint = `${API_URL}/additional/recommended?limit=16&page=1`;
         fetch(recommendationEndpoint)
           .then((response) => response.json())
           .then((data) => {

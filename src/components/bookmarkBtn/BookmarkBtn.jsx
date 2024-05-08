@@ -29,7 +29,7 @@ const BookmarkBtn = ({ movie, mediaType }) => {
         <i className="absolute top-2 right-2 cursor-pointer bookmark-icon z-50 "
             onClick={handleBookmark}>
             {
-                (addedBookmarked) ? <FaBookmark color="blue" /> : <FaRegBookmark />
+                (addedBookmarked) ? <FaBookmark color="#007BFF" /> : <FaRegBookmark />
             }
 
         </i>
