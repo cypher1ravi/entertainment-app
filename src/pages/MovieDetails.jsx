@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 const MovieDetails = () => {
   const [fullMovieDetail, setFullMovieDetail] = useState([]);
   const [loading, setLoading] = useState(true);
+  const serverURL = import.meta.env.VITE_SERVER_URL;
 
 
   const { searchResults } = useSelector(state => state.searchResultsSlice)
@@ -39,7 +40,7 @@ const MovieDetails = () => {
   const media_type_id = findMovieDetails?.id;
   // console.log(media_type_id);
 
-  const fetchDetails = `http://localhost:3001/${movieOrTv}/details/${media_type_id}`;
+  const fetchDetails = `${serverURL}/${movieOrTv}/details/${media_type_id}`;
   // Fetching Details
   useEffect(() => {
 
@@ -55,7 +56,7 @@ const MovieDetails = () => {
   }, [fetchDetails]);
 
   // Fetching Cast
-  const fetchCast = `http://localhost:3001/${movieOrTv}/details/${media_type_id}`;
+  const fetchCast = `${serverURL}/${movieOrTv}/details/${media_type_id}`;
   const [cast, setCast] = useState([]);
   useEffect(() => {
     fetch(fetchCast)

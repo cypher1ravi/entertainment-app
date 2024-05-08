@@ -11,6 +11,7 @@ const Series = () => {
   const { series, searchTermSeries, loadingSeries } = useSelector(state => state.seriesSlice);
   const dispatch = useDispatch();
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+  const serverURL = import.meta.env.VITE_SERVER_URL;
   const [page, setPage] = useState(1);
   const [totalResult, setTotalResults] = useState()
 
@@ -24,10 +25,10 @@ const Series = () => {
   }, [searchTermSeries]);
 
   const fetchTVSeries = (pageNumber) => {
-    let apiUrl = `http://localhost:3001/tvseries?page=${pageNumber}&limit=8`;
+    let apiUrl = `${serverURL}/tvseries?page=${pageNumber}&limit=8`;
 
     if (searchTermSeries !== "") {
-      apiUrl = `http://localhost:3001/tvseries?page=${pageNumber}&limit=8&search=${searchTermSeries}`;
+      apiUrl = `${serverURL}/tvseries?page=${pageNumber}&limit=8&search=${searchTermSeries}`;
     }
 
     fetch(apiUrl)

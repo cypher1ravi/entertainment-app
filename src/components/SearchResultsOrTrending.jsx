@@ -11,6 +11,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const SearchResultsOrTrending = () => {
+  const serverURL = import.meta.env.VITE_SERVER_URL;
+
   const { searchTerm, searchResults } = useSelector(state => state.searchResultsSlice);
 
   const { trending, loadingTrending } = useSelector(state => state.trendingSlice)
@@ -33,7 +35,7 @@ const SearchResultsOrTrending = () => {
   // GET TRENDING MOVIES AND TV SERIES
   useEffect(() => {
     dispatch(setLoadingTrending(true));
-    fetch(`http://localhost:3001/additional/trending?limit=8&page=1`)
+    fetch(`${serverURL}/additional/trending?limit=8&page=1`)
       .then((res) => res.json())
       .then((data) => {
         dispatch(setTrending(data.trending));

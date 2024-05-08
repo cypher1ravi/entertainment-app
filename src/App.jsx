@@ -9,7 +9,6 @@ import Movies from "./pages/Movies";
 import Boookmarks from "./pages/Boookmarks";
 import Header from "./components/Header";
 import MovieDetails from "./pages/MovieDetails";
-import Footer from "./components/Footer";
 import Error404 from "./pages/Error404";
 import { setBookmark, setLoadingBookmark } from "./store/slices/bookmarkSlice";
 import { useDispatch } from "react-redux";
@@ -21,7 +20,7 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const serverURL = import.meta.env.SERVER_URL || "http://localhost:3001"
+  const serverURL = import.meta.env.VITE_SERVER_URL;
 
   useEffect(() => {
     try {

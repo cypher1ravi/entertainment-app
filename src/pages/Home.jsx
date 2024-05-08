@@ -10,6 +10,7 @@ import { setLoadingRecommended, setRecommended } from "../store/slices/recommend
 
 const Home = () => {
 
+
   const dispatch = useDispatch()
   const [toolTip, setToolTip] = useState(false);
   const { searchTerm } = useSelector(state => state.searchResultsSlice)
@@ -25,6 +26,7 @@ const Home = () => {
   const page = 1;
   const includeAdult = false;
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY
+  const serverURL = import.meta.env.VITE_SERVER_URL;
 
   useEffect(() => {
     dispatch(setLoadingSearchResults(true))
@@ -47,7 +49,7 @@ const Home = () => {
 
         // Retrieve the recommendations for each matching movie or TV show
         // const id = matchingResults[0].id;
-        const recommendationEndpoint = `http://localhost:3001/additional/recommended?limit=16&page=1`;
+        const recommendationEndpoint = `${serverURL}/additional/recommended?limit=16&page=1`;
         fetch(recommendationEndpoint)
           .then((response) => response.json())
           .then((data) => {
@@ -58,7 +60,7 @@ const Home = () => {
           .catch((error) => console.error(error));
       })
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
+    // .finally(() => setLoading(false));
   }, [searchTerm]);
 
 
