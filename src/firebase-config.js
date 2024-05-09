@@ -103,7 +103,7 @@ export const addBookmark = async (movieId, mediaType) => {
     onAuthStateChanged(auth, async (user) => {
       const token = await user.getIdToken()
       // console.log(user.accessToken);
-      console.log(user.localid);
+
       // console.log(JSON.stringify({ movieId }));
       const options = {
         method: "POST", // Adjust method based on API needs
