@@ -35,7 +35,10 @@ const Login = () => {
       });
       return;
     }
-
+    if (auth?.currentUser?.emailVerified === false) {
+      toast.warn("Please Verify Your Email!");
+      return;
+    }
     setLoading(true);
     try {
       await login(emailRef.current.value, passwordRef.current.value);

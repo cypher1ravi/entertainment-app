@@ -113,13 +113,14 @@ const Header = () => {
             className="cursor-pointer"
             onClick={() => setShowMenu(!showMenu)}
           />
+
           {showMenu && (
             <div
               id="profile"
               className=" absolute min-w-[250px] border right-0 top-14 p-4 bg-[#161D2F] rounded-lg lg:-top-[85px] lg:-right-[330px]"
             >
               <h2 className="text-sm font-light mb-8">
-                Hello, <b>{user.user?.email}</b>
+                Hello, <b>{user.user?.displayName || user.user?.email}</b>
               </h2>
               <button
                 className="px-4 py-2 bg-redColor w-full rounded hover:bg-white hover:text-redColor transition-all"
