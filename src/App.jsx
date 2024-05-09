@@ -36,6 +36,7 @@ function App() {
           fetch(`${API_URL}/bookmark`, { headers })
             .then(res => res.json()).then(data => {
               dispatch(setBookmark(data))
+              console.log(data);
             })
             .catch(err => console.log(err))
         }

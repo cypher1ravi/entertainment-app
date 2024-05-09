@@ -29,9 +29,6 @@ const Signup = () => {
       await signup(emailRef.current.value, confirmPasswordRef.current.value);
 
       // Toast Notification
-      toast.success("Signup Successful!", {
-        pauseOnHover: false,
-      });
 
       // Send Email Verification
       await sendEmailVerification(auth?.currentUser)
@@ -44,6 +41,9 @@ const Signup = () => {
           toast.success("Error Sending Verification Email!");
           console.error(error);
         });
+      toast.success("Signup Successful!", {
+        pauseOnHover: false,
+      });
 
       navigate("/login");
 

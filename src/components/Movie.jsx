@@ -20,7 +20,7 @@ const Movie = ({ movie }) => {
         className="mb-3 w-full rounded-lg h-[150px] "
       />
 
-      <BookmarkBtn movie={movie} mediaType={"movies"} />
+      <BookmarkBtn movie={movie} mediaType={movie.media_type === "tv" ? "tvseries" : "movies"} />
 
       <img
         src={playIcon}
@@ -37,6 +37,7 @@ const Movie = ({ movie }) => {
                 src={movie.media_type === "movie" ? movieIcon : tvIcon}
                 alt="Media Icon"
               />
+
             </div>
             <p>{movie.media_type ? movie.media_type : "Movie"}</p>
           </div>

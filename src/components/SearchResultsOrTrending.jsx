@@ -11,7 +11,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const SearchResultsOrTrending = () => {
-  const serverURL = import.meta.env.VITE_SERVER_URL;
 
   const { searchTerm, searchResults } = useSelector(state => state.searchResultsSlice);
 
@@ -66,7 +65,7 @@ const SearchResultsOrTrending = () => {
         (
           <Slider {...settings}>
             {loadingTrending
-              ? [...Array(20)].map((_, i) => <SkeletonLoaderTrending key={i} />)
+              ? [...Array(3)].map((_, i) => <SkeletonLoaderTrending key={i} />)
               : trending.map((item) => (
                 <Link key={item.id} to={`/trending/${item.id}`}>
                   <Trending trending={item} />
