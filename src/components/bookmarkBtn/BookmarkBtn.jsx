@@ -11,6 +11,7 @@ const BookmarkBtn = ({ movie, mediaType }) => {
 
     const addedBookmarked = bookmark?.find(e => e.id === movie?.id)
     // const addedBookmarked = false
+    // console.log(mediaType);
 
 
     const handleBookmark = async (e) => {
