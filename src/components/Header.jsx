@@ -105,12 +105,13 @@ const Header = () => {
           </NavLink>
         </div>
         {/* User Profile Dropdown*/}
+
         <div className="relative">
           <img
             id="user"
-            src={userIcon}
+            src={user.user?.photoURL || userIcon}
             alt="userIcon"
-            className="cursor-pointer"
+            className="cursor-pointer w-8 h-8 rounded-full border-2 border-red"
             onClick={() => setShowMenu(!showMenu)}
           />
 
